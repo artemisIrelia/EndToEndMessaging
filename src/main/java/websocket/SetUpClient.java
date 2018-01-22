@@ -1,6 +1,7 @@
 package websocket;
 
 import java.net.URI;
+import java.util.concurrent.Executor;
 
 import org.eclipse.jetty.websocket.client.ClientUpgradeRequest;
 import org.eclipse.jetty.websocket.client.WebSocketClient;
@@ -10,8 +11,9 @@ public class SetUpClient {
 	public String webAddress;
 	public WebSocketClient client;
 	public Client socket;
+	private Executor runner;
 	
-	public SetUpClient(String address) throws Exception
+	public SetUpClient(String address, Executor runner)throws Exception
 	{
 		webAddress = address;
 		client = new WebSocketClient();
@@ -26,10 +28,16 @@ public class SetUpClient {
 		} catch (Throwable t) {
 			throw new Exception("Unable to connect:" + toString().toString());
 	}
+		this.runner = runner;
 	}
 	
 	public void sendMessage(String message) {
-		socket.sendMessage(message);
+		runner.execute(new Runnable() {
+	          public void run() {
+	        	  socket.sendMessage(message);
+	          }
+	       });
+		
 		
 	}
 	

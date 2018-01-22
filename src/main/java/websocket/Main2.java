@@ -1,6 +1,8 @@
 package websocket;
 
 import java.util.Scanner;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 //
 //main and main2 are two clients(also has a server that listens to messages)
@@ -16,6 +18,8 @@ public class Main2 {
 		Thread t1 = new Thread(server);
 		t1.start();
 		
+		Executor runner = Executors.newSingleThreadExecutor();
+		
 		Scanner uScanner = new Scanner(System.in);
         
 //		String dest = "ws://localhost:8080/";
@@ -25,7 +29,7 @@ public class Main2 {
 		
 		
 		try {
-		SetUpClient setUpClient = new SetUpClient(dest);
+		SetUpClient setUpClient = new SetUpClient(dest,runner);
 		System.out.println("username:");
 		String username = uScanner.nextLine();
 		while(true) {

@@ -18,6 +18,8 @@ import javax.swing.JButton;
 import javax.swing.JTextArea;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -64,6 +66,8 @@ public class MainUi2 extends JFrame implements WritableGUI{
 		Thread t1 = new Thread(server);
 		t1.start();
 		
+		Executor runner = Executors.newSingleThreadExecutor();
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 751, 451);
 		contentPane = new JPanel();
@@ -90,7 +94,7 @@ public class MainUi2 extends JFrame implements WritableGUI{
 				connectedWebSocket = txtWebsocketAddress.getText().toString();
 				username = txtUsername.getText().toString();
 				try {
-					setUpClient = new SetUpClient(connectedWebSocket);
+					setUpClient = new SetUpClient(connectedWebSocket, runner);
 				}
 					catch (Exception exception) {
 						// TODO: handle exception

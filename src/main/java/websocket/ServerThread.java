@@ -48,5 +48,9 @@ public class ServerThread implements Runnable{
        
 	}
 	
+	public void random() {
+		System.out.println("random");
+	}
+	
 
 }
