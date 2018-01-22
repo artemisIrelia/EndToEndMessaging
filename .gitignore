@@ -1,2 +1,6 @@
 /target/
-.jar
+*.jar
+.idea/
+.settings/
+.classpath
+.project
