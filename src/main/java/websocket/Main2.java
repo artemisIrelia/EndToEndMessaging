@@ -1,5 +1,8 @@
 package websocket;
 
+import com.reversehash.crypto.KeyFactory;
+import com.sun.security.sasl.ClientFactoryImpl;
+
 import java.util.Scanner;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -11,38 +14,40 @@ import java.util.concurrent.Executors;
 
 
 public class Main2 {
-	public static void main(String[] args) throws Exception {
-		
-		//no gui so set null for gui params
-		ServerThread server = new ServerThread(8000, null);
-		Thread t1 = new Thread(server);
-		t1.start();
-		
-		Executor runner = Executors.newSingleThreadExecutor();
-		
-		Scanner uScanner = new Scanner(System.in);
-        
+    public static void main(String[] args) throws Exception {
+
+        //no gui so set null for gui params
+        KeyFactory serverKeys = new KeyFactory();
+
+        ServerThread server = new ServerThread(8000, null, serverKeys);
+
+        Thread t1 = new Thread(server);
+        t1.start();
+
+        Executor runner = Executors.newSingleThreadExecutor();
+
+        Scanner uScanner = new Scanner(System.in);
+
 //		String dest = "ws://localhost:8080/";
-		
-		System.out.println("select ip to connect and port:");
-		String dest = uScanner.nextLine();
-		
-		
-		try {
-		SetUpClient setUpClient = new SetUpClient(dest,runner);
-		System.out.println("username:");
-		String username = uScanner.nextLine();
-		while(true) {
-			setUpClient.sendMessage(username + ":" + uScanner.nextLine());
-			}
-		}
-		catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			uScanner.close();
-		}
-			
-			
-}
+
+        System.out.println("select ip to connect and port:");
+        String dest = uScanner.nextLine();
+
+        try {
+            SetUpClient setUpClient = new SetUpClient(dest, runner);
+
+            System.out.println("username:");
+            String username = uScanner.nextLine();
+            while (true) {
+                setUpClient.sendMessage(uScanner.nextLine());
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+            uScanner.close();
+        }
+
+
+    }
 }
 

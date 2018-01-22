@@ -1,5 +1,8 @@
 package websocket;
 
+import com.reversehash.crypto.DHKeyPair;
+import com.reversehash.crypto.KeyFactory;
+import com.sun.crypto.provider.DHKeyFactory;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.websocket.server.WebSocketHandler;
 import org.eclipse.jetty.websocket.servlet.ServletUpgradeRequest;
@@ -9,21 +12,31 @@ import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 
 import gui.WritableGUI;
 
+import javax.crypto.interfaces.DHKey;
+
 public class ServerThread implements Runnable{
 	
 	int port;
-	
+	KeyFactory factory;
 	//the gui interface
 	WritableGUI gui;
 	
-	public ServerThread(int port, WritableGUI gui) {
+	public ServerThread(int port, WritableGUI gui, KeyFactory factory) {
+		this.factory=factory;
 		this.port = port;
 		this.gui = gui;
+	}
+	public ServerThread(int port, WritableGUI gui) {
+		this.factory=new KeyFactory();
+		this.port = port;
+		this.gui = gui;
+
 	}
 
 	@Override
 	public void run() {
 		Server server = new Server(port);
+		final KeyFactory _factory=factory;
         WebSocketHandler wsHandler = new WebSocketHandler() {
             @Override
             public void configure(WebSocketServletFactory factory) {
@@ -33,7 +46,7 @@ public class ServerThread implements Runnable{
 					@Override
 					public Object createWebSocket(ServletUpgradeRequest arg0, ServletUpgradeResponse arg1) {
 						// TODO Auto-generated method stub
-						return new WebSocketServer(gui);
+						return new WebSocketServer(gui,_factory);
 					}
 				});
             }
@@ -51,6 +64,8 @@ public class ServerThread implements Runnable{
 	public void random() {
 		System.out.println("random");
 	}
-	
+	public KeyFactory getKeyFactory(){
+		return this.factory;
+	}
 
 }
