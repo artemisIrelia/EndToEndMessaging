@@ -76,7 +76,7 @@ public class ProtocolHandler {
             index=-index;
 
         byte[] secret = factory.getSecret(message.receiver,index);
-        MessageType messageType=TextMessage.class.getAnnotation(MessageType.class);
+        MessageType messageType=message.getClass().getAnnotation(MessageType.class);
 
         MessageProtocol.MessageData data = MessageProtocol.MessageData.newBuilder()
                 .setType(messageType.type())

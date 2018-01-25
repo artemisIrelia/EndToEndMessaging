@@ -9,20 +9,14 @@ import com.reversehash.crypto.KeyFactory;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
-
-import gui.WritableGUI;
-
 import javax.xml.bind.ValidationException;
 
 
 @WebSocket
 public class WebSocketServer {
-	
-	WritableGUI gui;
 	KeyFactory factory;
-	public WebSocketServer(WritableGUI gui, KeyFactory factory) {
+	public WebSocketServer( KeyFactory factory) {
 	    this.factory=factory;
-		this.gui = gui;
 	}
 	
     @OnWebSocketMessage

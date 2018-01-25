@@ -22,12 +22,12 @@ public class ProtocolHandlerTest {
         TextMessage aliceMessage=new TextMessage("Hello bob how are you?");
         aliceMessage.sender=alice.getMyKey().getPublic();
         aliceMessage.receiver=bob.getMyKey().getPublic();
-        System.out.println(aliceMessage.sender.length);
-        System.out.println(aliceMessage.receiver.length);
+
         byte[] messageToNetwork=aliceHandler.createMessage(aliceMessage).toByteArray();
 
 
         TextMessage Receivedmessage= (TextMessage) bobHandler.handleMessage(MessageProtocol.Message.parseFrom(messageToNetwork));
+
         assert(Receivedmessage.text.equals(aliceMessage.text));
 
     }

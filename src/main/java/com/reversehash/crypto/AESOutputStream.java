@@ -10,6 +10,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.InputStream;
+import java.util.Arrays;
 
 public class AESOutputStream extends CipherInputStream {
 
@@ -22,7 +23,8 @@ public class AESOutputStream extends CipherInputStream {
             Cipher aes = Cipher.getInstance("AES/CBC/PKCS5Padding");
             key = Hashes.sha3_256(key);
             SecretKeySpec keySpec = new SecretKeySpec(key, "AES");
-            IvParameterSpec iv = new IvParameterSpec(Bytes.getRandomBytes(16));
+            IvParameterSpec iv = new IvParameterSpec(Arrays.copyOf(key,16));
+
 
             aes.init(Cipher.DECRYPT_MODE, keySpec, iv);
             return aes;

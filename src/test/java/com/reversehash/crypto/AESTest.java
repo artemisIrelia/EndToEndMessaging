@@ -15,7 +15,6 @@ public class AESTest {
         String message = "Hello how is encrypting and decrypting?";
         byte[] cipherText = AESInputStream.directEncrypt("sudip".getBytes(), message.getBytes());
         byte[] msg = AESOutputStream.directDecrypt("sudip".getBytes(), cipherText);
-        System.out.println("Output message :" + new String(msg));
         assert (Arrays.equals(msg, message.getBytes()));
     }
 
@@ -25,11 +24,7 @@ public class AESTest {
         Cipher decoder = AESOutputStream.getAESInstance("sudip".getBytes());
         String message="Hello how is encrypting and decrypting?";
         byte[] msg=decoder.doFinal(encoder.doFinal(message.getBytes()));
-        System.out.println("Output message :" + new String(msg));
         assert (Arrays.equals(msg, message.getBytes()));
-
-
-
     }
 
 }
